@@ -46,7 +46,9 @@ jobs:
           echo "All build artifacts verified."
 
       - name: Update package version from release tag
-        uses: BellCubeDev/update-package-version-by-release-tag@v2
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          jq ".version = \"$VERSION\"" package.json > package.tmp.json && mv package.tmp.json package.json
 
       - name: Verify version matches release tag
         run: |
