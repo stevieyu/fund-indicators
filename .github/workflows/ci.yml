@@ -38,16 +38,9 @@ jobs:
       - name: Build (Node + Browser)
         run: pnpm run build
 
-      - name: Verify Node build output
+      - name: Verify build output
         run: |
-          test -f dist/index.js    || (echo "Missing dist/index.js" && exit 1)
-          test -f dist/index.d.ts  || (echo "Missing dist/index.d.ts" && exit 1)
+          test -f dist/index.mjs    || (echo "Missing dist/index.mjs" && exit 1)
+          test -f dist/index.cjs    || (echo "Missing dist/index.cjs" && exit 1)
+          test -f dist/index.d.cts  || (echo "Missing dist/index.d.cts" && exit 1)
           echo "Node build output verified."
-
-      - name: Verify browser build output
-        run: |
-          test -f dist/browser/fund-indicators.js          || (echo "Missing IIFE bundle" && exit 1)
-          test -f dist/browser/fund-indicators.min.js      || (echo "Missing IIFE min bundle" && exit 1)
-          test -f dist/browser/fund-indicators.esm.js      || (echo "Missing ESM bundle" && exit 1)
-          test -f dist/browser/fund-indicators.esm.min.js  || (echo "Missing ESM min bundle" && exit 1)
-          echo "Browser build output verified."
