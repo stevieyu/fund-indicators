@@ -8,28 +8,29 @@ importers:
 
   .:
     dependencies:
-      jstat:
-        specifier: ^1.9.6
-        version: 1.9.6
       simple-statistics:
         specifier: ^7.8.0
         version: 7.8.9
-      technicalindicators:
-        specifier: ^3.1.0
-        version: 3.1.0
     devDependencies:
-      '@types/node':
-        specifier: latest
-        version: 25.9.1
+      jstat:
+        specifier: ^1.9.6
+        version: 1.9.6
       pkgroll:
         specifier: ^2
         version: 2.27.1(typescript@6.0.3)
+      technicalindicators:
+        specifier: ^3.1.0
+        version: 3.1.0
       tsx:
         specifier: ^4
         version: 4.22.4
       typescript:
         specifier: ^6
         version: 6.0.3
+    optionalDependencies:
+      '@types/node':
+        specifier: latest
+        version: 25.9.1
 
 packages:
 
@@ -1064,6 +1065,7 @@ snapshots:
   '@types/node@25.9.1':
     dependencies:
       undici-types: 7.24.6
+    optional: true
 
   '@types/node@6.0.96': {}
 
@@ -1308,6 +1310,7 @@ snapshots:
 
   typescript@6.0.3: {}
 
-  undici-types@7.24.6: {}
+  undici-types@7.24.6:
+    optional: true
 
   yaml@2.9.0: {}
