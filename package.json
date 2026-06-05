@@ -2,30 +2,11 @@
   "name": "@stvy/fund-indicators",
   "version": "1.0.0",
   "description": "基金自动化交易指标计算工具库 - 基于历史净值计算全部技术指标",
-  "main": "dist/index.js",
-  "module": "dist/browser/fund-indicators.esm.js",
-  "browser": "dist/browser/fund-indicators.min.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/browser/fund-indicators.esm.js",
-      "require": "./dist/index.js"
-    },
-    "./browser": {
-      "import": "./dist/browser/fund-indicators.esm.js",
-      "default": "./dist/browser/fund-indicators.min.js"
-    }
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
   "scripts": {
-    "build": "pnpm run build:node && pnpm run build:browser",
-    "build:node": "tsc",
-    "build:browser": "node scripts/build-browser.mjs",
+    "build": "pkgroll -m",
     "test": "tsx test/index.test.ts",
     "prepublishOnly": "pnpm run build"
   },
@@ -35,13 +16,13 @@
     "technicalindicators": "^3.1.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.0",
-    "vite": "^8.0.0"
+    "@types/node": "latest",
+    "typescript": "^6",
+    "pkgroll": "^2",
+    "tsx": "^4"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "pnpm@11.1.1",
   "keywords": [
