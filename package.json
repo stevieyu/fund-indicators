@@ -23,11 +23,11 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run build:node && npm run build:browser",
+    "build": "pnpm run build:node && pnpm run build:browser",
     "build:node": "tsc",
     "build:browser": "node scripts/build-browser.mjs",
     "test": "tsx test/index.test.ts",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "jstat": "^1.9.6",
@@ -43,6 +43,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "packageManager": "pnpm@11.1.1",
   "keywords": [
     "fund",
     "fund-nav",
