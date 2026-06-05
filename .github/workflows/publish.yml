@@ -56,6 +56,9 @@ jobs:
             exit 1
           fi
 
+      - name: Update package version from release tag
+        uses: BellCubeDev/update-package-version-by-release-tag@v2
+
       - name: Publish to npm
         run: pnpm publish --access public --no-git-checks
         env:
