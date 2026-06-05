@@ -46,13 +46,3 @@ jobs:
           test -f dist/index.cjs    || (echo "Missing dist/index.cjs" && exit 1)
           test -f dist/index.d.cts  || (echo "Missing dist/index.d.cts" && exit 1)
           echo "Node build output verified."
-
-      - name: Bump version
-        run: |
-          npm version patch -m "Bump version to %s"
-          git push
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.sha }}
