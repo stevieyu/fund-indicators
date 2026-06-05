@@ -6,7 +6,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "scripts": {
-    "build": "pkgroll",
+    "build": "pnpm run build:node && pnpm run build:browser",
+    "build:node": "pkgroll",
+    "build:browser": "node build-browser.mjs",
     "test": "tsx test/index.test.ts",
     "prepublishOnly": "pnpm run build"
   },
@@ -17,6 +19,7 @@
     "technicalindicators": "^3.1.0",
     "jstat": "^1.9.6",
     "typescript": "^6",
+    "esbuild": "latest",
     "pkgroll": "^2",
     "tsx": "^4"
   },

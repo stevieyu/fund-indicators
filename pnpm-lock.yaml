@@ -12,6 +12,9 @@ importers:
         specifier: ^7.8.0
         version: 7.8.9
     devDependencies:
+      esbuild:
+        specifier: latest
+        version: 0.28.0
       jstat:
         specifier: ^1.9.6
         version: 1.9.6
