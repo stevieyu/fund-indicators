@@ -45,6 +45,9 @@ jobs:
           test -f dist/index.d.cts  || (echo "Missing dist/index.d.cts" && exit 1)
           echo "All build artifacts verified."
 
+      - name: Update package version from release tag
+        uses: BellCubeDev/update-package-version-by-release-tag@v2
+
       - name: Verify version matches release tag
         run: |
           PKG_VERSION=$(node -p "require('./package.json').version")
@@ -55,9 +58,6 @@ jobs:
             echo "::error::package.json version ($PKG_VERSION) does not match release tag ($TAG_VERSION)"
             exit 1
           fi
-
-      - name: Update package version from release tag
-        uses: BellCubeDev/update-package-version-by-release-tag@v2
 
       - name: Publish to npm
         run: pnpm publish --access public --no-git-checks
