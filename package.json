@@ -1,6 +1,6 @@
 {
   "name": "@stvy/fund-indicators",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "基金自动化交易指标计算工具库 - 基于历史净值计算全部技术指标",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
