@@ -1,0 +1,81 @@
+# Publish — 自动发布到 npm
+# 当在 GitHub 上创建新的 Release 时自动触发
+#
+# 前置配置：
+# 1. 在 npm 上生成一个 Automation Token（Settings → Access Tokens → Generate New Token → Automation）
+# 2. 在 GitHub 仓库中添加 Secret：Settings → Secrets and variables → Actions → New repository secret
+#    - Name: NPM_TOKEN
+#    - Value: 你生成的 npm Automation Token
+
+name: Publish to npm
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Build (Node + Browser)
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "=== Node build ==="
+          test -f dist/index.js    || (echo "Missing dist/index.js" && exit 1)
+          test -f dist/index.d.ts  || (echo "Missing dist/index.d.ts" && exit 1)
+          echo "=== Browser build ==="
+          test -f dist/browser/fund-indicators.js          || (echo "Missing IIFE bundle" && exit 1)
+          test -f dist/browser/fund-indicators.min.js      || (echo "Missing IIFE min bundle" && exit 1)
+          test -f dist/browser/fund-indicators.esm.js      || (echo "Missing ESM bundle" && exit 1)
+          test -f dist/browser/fund-indicators.esm.min.js  || (echo "Missing ESM min bundle" && exit 1)
+          echo "All build artifacts verified."
+
+      - name: Verify version matches release tag
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION=${GITHUB_REF_NAME#v}
+          echo "Package version: $PKG_VERSION"
+          echo "Release tag:     $TAG_VERSION"
+          if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match release tag ($TAG_VERSION)"
+            exit 1
+          fi
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Summary
+        run: |
+          echo "## Published to npm" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Package: \`@stvy/fund-indicators@${GITHUB_REF_NAME#v}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Registry: https://www.npmjs.com/package/@stvy/fund-indicators" >> $GITHUB_STEP_SUMMARY
+          echo "- Includes browser bundles (IIFE + ESM)" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,76 @@
+{
+  "name": "@stvy/fund-indicators",
+  "version": "1.0.0",
+  "description": "基金自动化交易指标计算工具库 - 基于历史净值计算全部技术指标",
+  "main": "dist/index.js",
+  "module": "dist/browser/fund-indicators.esm.js",
+  "browser": "dist/browser/fund-indicators.min.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/browser/fund-indicators.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./browser": {
+      "import": "./dist/browser/fund-indicators.esm.js",
+      "default": "./dist/browser/fund-indicators.min.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run build:node && npm run build:browser",
+    "build:node": "tsc",
+    "build:browser": "node scripts/build-browser.mjs",
+    "test": "tsx test/index.test.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "jstat": "^1.9.6",
+    "simple-statistics": "^7.8.0",
+    "technicalindicators": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.28.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "fund",
+    "fund-nav",
+    "technical-indicators",
+    "quantitative",
+    "quantitative-finance",
+    "trading",
+    "backtest",
+    "moving-average",
+    "macd",
+    "rsi",
+    "kdj",
+    "bollinger-bands",
+    "sharpe-ratio",
+    "max-drawdown",
+    "var",
+    "hurst-exponent",
+    "dca",
+    "typescript",
+    "browser"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stevieyu/fund-indicators.git"
+  },
+  "homepage": "https://github.com/stevieyu/fund-indicators#readme",
+  "bugs": {
+    "url": "https://github.com/stevieyu/fund-indicators/issues"
+  }
+}

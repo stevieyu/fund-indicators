@@ -1,0 +1,50 @@
+# CI — 持续集成
+# 在每次 push 到 main 和每个 PR 时运行测试、类型检查和构建
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build (Node + Browser)
+        run: npm run build
+
+      - name: Verify Node build output
+        run: |
+          test -f dist/index.js    || (echo "Missing dist/index.js" && exit 1)
+          test -f dist/index.d.ts  || (echo "Missing dist/index.d.ts" && exit 1)
+          echo "Node build output verified."
+
+      - name: Verify browser build output
+        run: |
+          test -f dist/browser/fund-indicators.js          || (echo "Missing IIFE bundle" && exit 1)
+          test -f dist/browser/fund-indicators.min.js      || (echo "Missing IIFE min bundle" && exit 1)
+          test -f dist/browser/fund-indicators.esm.js      || (echo "Missing ESM bundle" && exit 1)
+          test -f dist/browser/fund-indicators.esm.min.js  || (echo "Missing ESM min bundle" && exit 1)
+          echo "Browser build output verified."
